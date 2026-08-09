@@ -1,16 +1,11 @@
-import { Button } from "./components/ui/button";
-import { Input } from "./components/ui/input/Input";
+import { Label } from "./components/ui/label/Label";
+import { Textarea } from "./components/ui/textarea/Textarea";
 
 const App = () => {
     return (
         <div className="max-w-md space-y-5 p-5">
-            <Input type="text" placeholder="نام کاربری" />
-
-            <Input type="email" placeholder="ایمیل" />
-
-            <Input type="password" placeholder="رمز عبور" />
-
-            <Input type="number" placeholder="سن" />
+            <Label htmlFor="textarea">توضیحات</Label>
+            <Textarea id="textarea" placeholder="جزئیات وظیفه را بنویسید..." />
         </div>
     );
 };
