@@ -1,9 +1,17 @@
+import { Button } from "./components/ui/button";
+import { Input } from "./components/ui/input/Input";
+
 const App = () => {
     return (
-        <>
-            <h1 class="text-3xl font-bold underline">Hello world!</h1>
-            <div className="size-10 bg-primary"></div>;
-        </>
+        <div className="max-w-md space-y-5 p-5">
+            <Input type="text" placeholder="نام کاربری" />
+
+            <Input type="email" placeholder="ایمیل" />
+
+            <Input type="password" placeholder="رمز عبور" />
+
+            <Input type="number" placeholder="سن" />
+        </div>
     );
 };
 
