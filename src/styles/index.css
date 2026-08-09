@@ -1,3 +1,328 @@
 @import "tailwindcss";
+@import "./fonts.css";
 
+/* Enable dark mode using the .dark class */
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------
+   Design Tokens
+   --------------------------------------------------------------- */
+
+@theme inline {
+    /* Typography */
+    --font-vazirmatn: "Vazirmatn", ui-sans-serif, system-ui, sans-serif;
+
+    /* Border Radius */
+    --radius-sm: calc(var(--radius) - 6px);
+    --radius-md: calc(var(--radius) - 4px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 6px);
+    --radius-2xl: calc(var(--radius) + 10px);
+    --radius-3xl: calc(var(--radius) + 14px);
+
+    /* Base Colors */
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+
+    /* Primary Colors */
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary-soft: var(--primary-soft);
+    --color-primary-hover: var(--primary-hover);
+    --color-primary-active: var(--primary-active);
+    --color-primary-border: var(--primary-border);
+
+    /* Surface Colors */
+    --color-elevated: var(--elevated);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+
+    /* Status Colors */
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-success: var(--success);
+    --color-success-foreground: var(--success-foreground);
+    --color-warning: var(--warning);
+    --color-warning-foreground: var(--warning-foreground);
+    --color-info: var(--info);
+    --color-info-foreground: var(--info-foreground);
+
+    /* Form and Interaction Colors */
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-surface: var(--surface);
+    --color-ring-offset-background: var(--background);
+
+    /* Chart Colors */
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+
+    /* Sidebar Colors */
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+
+    /* Shadows */
+    --shadow-card: 0 4px 20px rgb(0 0 0 / 0.06);
+    --shadow-lift: 0 12px 30px rgb(0 0 0 / 0.1);
+    --shadow-modal: 0 20px 60px rgb(0 0 0 / 0.14);
+
+    /* Animation and Easing */
+    --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+    --animate-fade-in: fade-in 0.25s var(--ease-smooth) both;
+    --animate-fade-up: fade-up 0.3s var(--ease-smooth) both;
+    --animate-scale-in: scale-in 0.2s var(--ease-smooth) both;
+    --animate-shimmer: shimmer 1.6s linear infinite;
+}
+
+/* ---------------------------------------------------------------
+   Keyframe Animations
+   --------------------------------------------------------------- */
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes shimmer {
+    from {
+        background-position: 200% 0;
+    }
+
+    to {
+        background-position: -200% 0;
+    }
+}
+
+/* ---------------------------------------------------------------
+   Light Theme
+   --------------------------------------------------------------- */
+
+:root {
+    --radius: 0.875rem;
+
+    /* Base Colors */
+    --background: #f7f7f8;
+    --foreground: #202228;
+    --secondary: #f1f2f4;
+    --secondary-foreground: #202228;
+    --muted: #f1f2f4;
+    --muted-foreground: #656a73;
+    --subtle-foreground: #858a94;
+
+    /* Container Colors */
+    --card: #ffffff;
+    --card-foreground: #202228;
+    --popover: #ffffff;
+    --popover-foreground: #202228;
+    --surface: #ffffff;
+    --elevated: #ffffff;
+
+    /* Borders and Inputs */
+    --border: #e2e4e8;
+    --input: #e2e4e8;
+
+    /* Primary Colors */
+    --primary: #a91d45;
+    --primary-foreground: #ffffff;
+    --primary-hover: color-mix(in oklab, var(--primary) 88%, #000000);
+    --primary-active: color-mix(in oklab, var(--primary) 76%, #000000);
+    --primary-soft: color-mix(in oklab, var(--primary) 10%, #ffffff);
+    --primary-border: color-mix(in oklab, var(--primary) 26%, #ffffff);
+    --accent: var(--primary-soft);
+    --accent-foreground: var(--primary);
+    --ring: var(--primary);
+
+    /* Status Colors */
+    --success: #14855c;
+    --success-foreground: #ffffff;
+    --warning: #b0761b;
+    --warning-foreground: #ffffff;
+    --destructive: #c33a33;
+    --destructive-foreground: #ffffff;
+    --info: #2f6fd0;
+    --info-foreground: #ffffff;
+
+    /* Chart Colors */
+    --chart-1: var(--primary);
+    --chart-2: var(--info);
+    --chart-3: var(--success);
+    --chart-4: var(--warning);
+    --chart-5: #7b5bd6;
+
+    /* Sidebar Colors */
+    --sidebar: var(--card);
+    --sidebar-foreground: var(--foreground);
+    --sidebar-primary: var(--primary);
+    --sidebar-primary-foreground: var(--primary-foreground);
+    --sidebar-accent: var(--primary-soft);
+    --sidebar-accent-foreground: var(--primary);
+    --sidebar-border: var(--border);
+    --sidebar-ring: var(--primary);
+}
+
+/* ---------------------------------------------------------------
+   Light Color Themes
+   --------------------------------------------------------------- */
+
+[data-theme="crimson"] {
+    --primary: #a91d45;
+}
+
+[data-theme="indigo"] {
+    --primary: #4657c8;
+}
+
+[data-theme="jade"] {
+    --primary: #16866a;
+}
+
+/* ---------------------------------------------------------------
+   Dark Theme
+   --------------------------------------------------------------- */
+
+.dark {
+    /* Base Colors */
+    --background: #181a1f;
+    --foreground: #f1f2f4;
+    --secondary: #1e2026;
+    --secondary-foreground: #f1f2f4;
+    --muted: #1e2026;
+    --muted-foreground: #a8adb7;
+    --subtle-foreground: #777d89;
+
+    /* Container Colors */
+    --card: #24272e;
+    --card-foreground: #f1f2f4;
+    --popover: #24272e;
+    --popover-foreground: #f1f2f4;
+    --surface: #292c34;
+    --elevated: #292c34;
+
+    /* Borders and Inputs */
+    --border: #353943;
+    --input: #353943;
+
+    /* Primary Colors */
+    --primary: #7546c9;
+    --primary-foreground: #ffffff;
+    --primary-hover: color-mix(in oklab, var(--primary) 86%, #ffffff);
+    --primary-active: color-mix(in oklab, var(--primary) 74%, #ffffff);
+    --primary-soft: color-mix(in oklab, var(--primary) 22%, #24272e);
+    --primary-border: color-mix(in oklab, var(--primary) 40%, #24272e);
+    --accent: var(--primary-soft);
+    --accent-foreground: color-mix(in oklab, var(--primary) 45%, #f1f2f4);
+    --ring: var(--primary);
+
+    /* Status Colors */
+    --success: #3fbf8f;
+    --success-foreground: #10231c;
+    --warning: #e0a34a;
+    --warning-foreground: #241a08;
+    --destructive: #e5645c;
+    --destructive-foreground: #2a1211;
+    --info: #5b9bf0;
+    --info-foreground: #0d1a2b;
+
+    /* Chart Colors */
+    --chart-5: #b57ae0;
+
+    /* Sidebar Colors */
+    --sidebar: var(--card);
+    --sidebar-foreground: var(--foreground);
+}
+
+/* ---------------------------------------------------------------
+   Dark Color Themes
+   --------------------------------------------------------------- */
+
+[data-theme="violet"] {
+    --primary: #7546c9;
+}
+
+[data-theme="petrol"] {
+    --primary: #176b78;
+}
+
+[data-theme="plum"] {
+    --primary: #873b78;
+}
+
+/* ---------------------------------------------------------------
+   Base Styles
+   --------------------------------------------------------------- */
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: var(--font-vazirmatn);
+        background-color: var(--color-background);
+        color: var(--color-foreground);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: color-mix(
+            in oklab,
+            var(--muted-foreground) 35%,
+            transparent
+        );
+        border-radius: 9999px;
+        border: 3px solid transparent;
+        background-clip: content-box;
+    }
+}
