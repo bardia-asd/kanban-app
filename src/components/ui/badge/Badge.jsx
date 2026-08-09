@@ -2,10 +2,6 @@ import PropTypes from "prop-types";
 import { cva } from "class-variance-authority";
 import { cn } from "@/utils/utils";
 
-import PropTypes from "prop-types";
-import { cva } from "class-variance-authority";
-import { cn } from "@/lib/utils";
-
 /**
  * Defines the available visual variants for the Badge component.
  *
@@ -20,15 +16,15 @@ export const badgeVariants = cva(
             variant: {
                 // Primary badge
                 default:
-                    "border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80",
+                    "border-transparent bg-primary text-primary-foreground shadow",
 
                 // Secondary badge
                 secondary:
-                    "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+                    "border-transparent bg-secondary text-secondary-foreground",
 
                 // Destructive or error state
                 destructive:
-                    "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
+                    "border-transparent bg-destructive text-destructive-foreground shadow",
 
                 // Badge with a transparent background and visible text
                 outline: "text-foreground",
@@ -87,7 +83,5 @@ Badge.propTypes = {
      */
     className: PropTypes.string,
 };
-
-export { Badge };
 
 export { Badge };
