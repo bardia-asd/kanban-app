@@ -1,11 +1,15 @@
-import { Label } from "./components/ui/label/Label";
-import { Textarea } from "./components/ui/textarea/Textarea";
+import { Badge } from "./components/ui/badge";
 
 const App = () => {
     return (
-        <div className="max-w-md space-y-5 p-5">
-            <Label htmlFor="textarea">توضیحات</Label>
-            <Textarea id="textarea" placeholder="جزئیات وظیفه را بنویسید..." />
+        <div dir="rtl" className="flex flex-wrap items-center gap-2">
+            <Badge>فعال</Badge>
+
+            <Badge variant="secondary">در انتظار</Badge>
+
+            <Badge variant="destructive">لغو شده</Badge>
+
+            <Badge variant="outline">پیش‌نویس</Badge>
         </div>
     );
 };
