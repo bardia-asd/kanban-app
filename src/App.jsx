@@ -1,60 +1,54 @@
 import { Button } from "./components/ui/button";
-import { Badge } from "./components/ui/badge";
+import { Input } from "./components/ui/input";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "./components/ui/card/Card";
+    Dialog,
+    DialogTrigger,
+    DialogClose,
+    DialogPortal,
+    DialogOverlay,
+    DialogContent,
+    DialogHeader,
+    DialogFooter,
+    DialogTitle,
+    DialogDescription,
+} from "./components/ui/dialog";
 
 const App = () => {
     return (
-        <div className="w-full max-w-lg p-4">
-            <Card>
-                <CardHeader className="items-center">
-                    <CardTitle>وظایف امروز</CardTitle>
+        <div className="p-5">
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Button>افزودن وظیفه</Button>
+                </DialogTrigger>
 
-                    <CardDescription>
-                        لیست وظایفی که برای امروز در نظر گرفته‌اید
-                    </CardDescription>
+                <DialogPortal>
+                    <DialogOverlay />
 
-                    <Button variant="outline" size="sm">
-                        افزودن
-                    </Button>
-                </CardHeader>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>افزودن وظیفه جدید</DialogTitle>
 
-                <CardContent>
-                    <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                            <span className="text-sm">طراحی صفحه اصلی</span>
+                            <DialogDescription>
+                                اطلاعات وظیفه جدید را وارد کنید.
+                            </DialogDescription>
+                        </DialogHeader>
 
-                            <Badge>انجام شده</Badge>
+                        <div className="space-y-4 py-4">
+                            <Input placeholder="عنوان وظیفه" />
+
+                            <Input placeholder="توضیحات" />
                         </div>
 
-                        <div className="flex items-center justify-between">
-                            <span className="text-sm">پیاده‌سازی داشبورد</span>
+                        <DialogFooter>
+                            <DialogClose asChild>
+                                <Button variant="outline">انصراف</Button>
+                            </DialogClose>
 
-                            <Badge variant="secondary">در حال انجام</Badge>
-                        </div>
-
-                        <div className="flex items-center justify-between">
-                            <span className="text-sm">تست برنامه</span>
-
-                            <Badge variant="outline">در انتظار</Badge>
-                        </div>
-                    </div>
-                </CardContent>
-
-                <CardFooter className="justify-between">
-                    <span className="text-sm text-muted-foreground">
-                        ۳ وظیفه
-                    </span>
-
-                    <Button size="sm">مشاهده همه</Button>
-                </CardFooter>
-            </Card>
+                            <Button>افزودن وظیفه</Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </DialogPortal>
+            </Dialog>
         </div>
     );
 };

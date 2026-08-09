@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import PropTypes from "prop-types";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/utils";
 
 /**
  * A reusable input component built on top of the native HTML input element.
