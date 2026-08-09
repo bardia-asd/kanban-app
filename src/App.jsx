@@ -1,45 +1,91 @@
 import { Button } from "./components/ui/button";
-import { Input } from "./components/ui/input";
 import {
-    AlertDialog,
-    AlertDialogTrigger,
-    AlertDialogPortal,
-    AlertDialogContent,
-    AlertDialogHeader,
-    AlertDialogFooter,
-    AlertDialogTitle,
-    AlertDialogDescription,
-    AlertDialogAction,
-    AlertDialogCancel,
-} from "./components/ui/alert-dialog";
+    DropdownMenu,
+    DropdownMenuTrigger,
+    DropdownMenuPortal,
+    DropdownMenuGroup,
+    DropdownMenuSub,
+    DropdownMenuRadioGroup,
+    DropdownMenuContent,
+    DropdownMenuSubTrigger,
+    DropdownMenuSubContent,
+    DropdownMenuItem,
+    DropdownMenuCheckboxItem,
+    DropdownMenuRadioItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+} from "./components/ui/dropdown-menu";
 
 const App = () => {
     return (
         <div className="p-4">
-            <AlertDialog>
-                <AlertDialogTrigger asChild>
-                    <Button variant="destructive">حذف وظیفه</Button>
-                </AlertDialogTrigger>
+            <DropdownMenu dir="rtl">
+                <DropdownMenuTrigger asChild>
+                    <Button variant="outline">گزینه‌ها</Button>
+                </DropdownMenuTrigger>
 
-                <AlertDialogPortal>
-                    <AlertDialogContent>
-                        <AlertDialogHeader>
-                            <AlertDialogTitle>حذف وظیفه</AlertDialogTitle>
+                <DropdownMenuContent align="start" className="w-56">
+                    <DropdownMenuLabel>مدیریت وظیفه</DropdownMenuLabel>
 
-                            <AlertDialogDescription>
-                                آیا مطمئن هستید که می‌خواهید این وظیفه را حذف
-                                کنید؟ این عملیات قابل بازگشت نیست.
-                            </AlertDialogDescription>
-                        </AlertDialogHeader>
+                    <DropdownMenuSeparator />
 
-                        <AlertDialogFooter>
-                            <AlertDialogCancel>انصراف</AlertDialogCancel>
+                    <DropdownMenuGroup>
+                        <DropdownMenuItem>
+                            ویرایش
+                            <DropdownMenuShortcut>
+                                Ctrl + E
+                            </DropdownMenuShortcut>
+                        </DropdownMenuItem>
 
-                            <AlertDialogAction>حذف</AlertDialogAction>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialogPortal>
-            </AlertDialog>
+                        <DropdownMenuItem>
+                            کپی کردن
+                            <DropdownMenuShortcut>
+                                Ctrl + C
+                            </DropdownMenuShortcut>
+                        </DropdownMenuItem>
+
+                        <DropdownMenuItem>
+                            حذف
+                            <DropdownMenuShortcut>Del</DropdownMenuShortcut>
+                        </DropdownMenuItem>
+                    </DropdownMenuGroup>
+
+                    <DropdownMenuSeparator />
+
+                    <DropdownMenuCheckboxItem checked>
+                        نمایش جزئیات
+                    </DropdownMenuCheckboxItem>
+
+                    <DropdownMenuCheckboxItem>
+                        نمایش تاریخ
+                    </DropdownMenuCheckboxItem>
+
+                    <DropdownMenuSeparator />
+
+                    <DropdownMenuSub>
+                        <DropdownMenuSubTrigger>اولویت</DropdownMenuSubTrigger>
+
+                        <DropdownMenuPortal>
+                            <DropdownMenuSubContent>
+                                <DropdownMenuRadioGroup value="high">
+                                    <DropdownMenuRadioItem value="high">
+                                        بالا
+                                    </DropdownMenuRadioItem>
+
+                                    <DropdownMenuRadioItem value="medium">
+                                        متوسط
+                                    </DropdownMenuRadioItem>
+
+                                    <DropdownMenuRadioItem value="low">
+                                        پایین
+                                    </DropdownMenuRadioItem>
+                                </DropdownMenuRadioGroup>
+                            </DropdownMenuSubContent>
+                        </DropdownMenuPortal>
+                    </DropdownMenuSub>
+                </DropdownMenuContent>
+            </DropdownMenu>
         </div>
     );
 };
