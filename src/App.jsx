@@ -1,23 +1,53 @@
 import { Button } from "./components/ui/button";
 import {
-    Avatar,
-    AvatarImage,
-    AvatarFallback,
-} from "./components/ui/avatar";
+    Select,
+    SelectGroup,
+    SelectValue,
+    SelectTrigger,
+    SelectScrollUpButton,
+    SelectScrollDownButton,
+    SelectContent,
+    SelectLabel,
+    SelectItem,
+    SelectSeparator,
+} from "./components/ui/select";
 
 const App = () => {
     return (
-        <div className="flex items-center gap-3 p-4">
-            <Avatar>
+        <div className="w-full max-w-sm p-4">
+            <Select defaultValue="medium" dir="rtl">
+                <SelectTrigger>
+                    <SelectValue placeholder="انتخاب اولویت" />
+                </SelectTrigger>
 
-                <AvatarFallback>عر</AvatarFallback>
-            </Avatar>
+                <SelectContent>
+                    <SelectScrollUpButton />
 
-            <div>
-                <p className="text-sm font-medium">علی رضایی</p>
+                    <SelectGroup>
+                        <SelectLabel>اولویت وظیفه</SelectLabel>
 
-                <p className="text-xs text-muted-foreground">توسعه‌دهنده</p>
-            </div>
+                        <SelectItem value="high">بالا</SelectItem>
+
+                        <SelectItem value="medium">متوسط</SelectItem>
+
+                        <SelectItem value="low">پایین</SelectItem>
+                    </SelectGroup>
+
+                    <SelectSeparator />
+
+                    <SelectGroup>
+                        <SelectLabel>وضعیت</SelectLabel>
+
+                        <SelectItem value="todo">انجام نشده</SelectItem>
+
+                        <SelectItem value="progress">در حال انجام</SelectItem>
+
+                        <SelectItem value="done">انجام شده</SelectItem>
+                    </SelectGroup>
+
+                    <SelectScrollDownButton />
+                </SelectContent>
+            </Select>
         </div>
     );
 };
