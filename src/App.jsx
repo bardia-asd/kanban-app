@@ -1,31 +1,15 @@
 import { useState } from "react";
 import { Button } from "./components/ui/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/ui/tabs";
+import {Toggle} from "./components/ui/toggle";
 
 const App = () => {
     const [activeTab, setActiveTab] = useState("board");
 
     return (
-        <div className="p-4">
-            <Tabs
-                dir="rtl"
-                value={activeTab}
-                onValueChange={setActiveTab}
-                className="w-full">
-                <TabsList>
-                    <TabsTrigger value="board">برد</TabsTrigger>
+        <div className="flex items-center gap-2 p-4">
+            <Toggle>نمایش تکمیل‌شده‌ها</Toggle>
 
-                    <TabsTrigger value="list">لیست</TabsTrigger>
-
-                    <TabsTrigger value="activity">فعالیت‌ها</TabsTrigger>
-                </TabsList>
-
-                <TabsContent value="board">محتوای برد</TabsContent>
-
-                <TabsContent value="list">لیست وظایف</TabsContent>
-
-                <TabsContent value="activity">فعالیت‌های اخیر</TabsContent>
-            </Tabs>
+            <Toggle variant="outline">فیلتر</Toggle>
         </div>
     );
 };
