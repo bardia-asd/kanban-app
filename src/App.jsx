@@ -1,42 +1,31 @@
+import { useState } from "react";
 import { Button } from "./components/ui/button";
-import {
-    Collapsible,
-    CollapsibleTrigger,
-    CollapsibleContent,
-} from "./components/ui/collapsible";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/ui/tabs";
 
 const App = () => {
+    const [activeTab, setActiveTab] = useState("board");
+
     return (
-        <div className="w-full max-w-md p-4">
-            <Collapsible>
-                <CollapsibleTrigger asChild>
-                    <Button
-                        variant="outline"
-                        className="w-full justify-between">
-                        جزئیات بیشتر
-                        <span>⌄</span>
-                    </Button>
-                </CollapsibleTrigger>
+        <div className="p-4">
+            <Tabs
+                dir="rtl"
+                value={activeTab}
+                onValueChange={setActiveTab}
+                className="w-full">
+                <TabsList>
+                    <TabsTrigger value="board">برد</TabsTrigger>
 
-                <CollapsibleContent className="space-y-3 pt-3">
-                    <div className="rounded-md border p-3">
-                        <p className="text-sm font-medium">توضیحات</p>
+                    <TabsTrigger value="list">لیست</TabsTrigger>
 
-                        <p className="mt-1 text-sm text-muted-foreground">
-                            طراحی و پیاده‌سازی صفحه داشبورد با رعایت اصول طراحی
-                            واکنش‌گرا.
-                        </p>
-                    </div>
+                    <TabsTrigger value="activity">فعالیت‌ها</TabsTrigger>
+                </TabsList>
 
-                    <div className="rounded-md border p-3">
-                        <p className="text-sm font-medium">مسئول</p>
+                <TabsContent value="board">محتوای برد</TabsContent>
 
-                        <p className="mt-1 text-sm text-muted-foreground">
-                            علی رضایی
-                        </p>
-                    </div>
-                </CollapsibleContent>
-            </Collapsible>
+                <TabsContent value="list">لیست وظایف</TabsContent>
+
+                <TabsContent value="activity">فعالیت‌های اخیر</TabsContent>
+            </Tabs>
         </div>
     );
 };
