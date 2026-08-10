@@ -1,17 +1,48 @@
 import { Button } from "./components/ui/button";
 import { Badge } from "./components/ui/badge";
-import { Progress } from "./components/ui/progress";
+import {
+    Tooltip,
+    TooltipTrigger,
+    TooltipContent,
+    TooltipProvider,
+} from "./components/ui/tooltip";
 
 const App = () => {
     return (
-        <div className="w-full max-w-md space-y-2 p-4">
-            <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">پیشرفت پروژه</span>
+        <div className="p-4">
+            <TooltipProvider>
+                <div className="flex items-center gap-2">
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                                ✏️
+                            </Button>
+                        </TooltipTrigger>
 
-                <span className="text-sm text-muted-foreground">45٪</span>
-            </div>
+                        <TooltipContent align="start">ویرایش وظیفه</TooltipContent>
+                    </Tooltip>
 
-            <Progress value={45} />
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                                🗑️
+                            </Button>
+                        </TooltipTrigger>
+
+                        <TooltipContent>حذف وظیفه</TooltipContent>
+                    </Tooltip>
+
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                                ⋮
+                            </Button>
+                        </TooltipTrigger>
+
+                        <TooltipContent align="end">گزینه‌های بیشتر</TooltipContent>
+                    </Tooltip>
+                </div>
+            </TooltipProvider>
         </div>
     );
 };
