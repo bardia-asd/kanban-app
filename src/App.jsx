@@ -1,15 +1,21 @@
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
-import { Toaster } from "./components/ui/toaster/Toaster";
+import { Skeleton } from "./components/ui/Skeleton";
+import { Card, CardHeader, CardContent } from "./components/ui/card";
 
 const App = () => {
-    useEffect(() => {
-        toast.success("وظیفه با موفقیت اضافه شد");
-    }, []);
-
     return (
-        <div className="flex items-center gap-3 p-4">
-            <Toaster />
+        <div className="max-w-md p-4">
+            <Card>
+                <CardHeader>
+                    <Skeleton className="h-5 w-40" />
+                    <Skeleton className="h-4 w-64" />
+                </CardHeader>
+
+                <CardContent className="space-y-3">
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-5/6" />
+                    <Skeleton className="h-4 w-3/4" />
+                </CardContent>
+            </Card>
         </div>
     );
 };
