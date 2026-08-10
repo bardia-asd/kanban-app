@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 import PropTypes from "prop-types";
 import { cn } from "@/utils/utils";
 
-const Label = forwardRef(({ children, className = "", ...props }) => {
+const Label = forwardRef(({ children, className = "", ...props }, ref) => {
     return (
         <label
             ref={ref}
