@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { Button } from "./components/ui/button";
-import {Toggle} from "./components/ui/toggle";
+import { Switch } from "./components/ui/switch";
+import { Label } from "./components/ui/label";
 
 const App = () => {
     const [activeTab, setActiveTab] = useState("board");
 
     return (
-        <div className="flex items-center gap-2 p-4">
-            <Toggle>نمایش تکمیل‌شده‌ها</Toggle>
+        <div className="flex items-center gap-3 p-4">
+            <Switch id="notifications" />
 
-            <Toggle variant="outline">فیلتر</Toggle>
+            <Label htmlFor="notifications">فعال کردن اعلان‌ها</Label>
         </div>
     );
 };
