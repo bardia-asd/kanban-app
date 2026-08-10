@@ -1,16 +1,15 @@
-import { useState } from "react";
-import { Button } from "./components/ui/button";
-import { Switch } from "./components/ui/switch";
-import { Label } from "./components/ui/label";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { Toaster } from "./components/ui/toaster/Toaster";
 
 const App = () => {
-    const [activeTab, setActiveTab] = useState("board");
+    useEffect(() => {
+        toast.success("وظیفه با موفقیت اضافه شد");
+    }, []);
 
     return (
         <div className="flex items-center gap-3 p-4">
-            <Switch id="notifications" />
-
-            <Label htmlFor="notifications">فعال کردن اعلان‌ها</Label>
+            <Toaster />
         </div>
     );
 };
