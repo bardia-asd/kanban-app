@@ -1,53 +1,68 @@
 import { Button } from "./components/ui/button";
+import { Badge } from "./components/ui/badge";
 import {
-    Select,
-    SelectGroup,
-    SelectValue,
-    SelectTrigger,
-    SelectScrollUpButton,
-    SelectScrollDownButton,
-    SelectContent,
-    SelectLabel,
-    SelectItem,
-    SelectSeparator,
-} from "./components/ui/select";
+    Drawer,
+    DrawerPortal,
+    DrawerOverlay,
+    DrawerTrigger,
+    DrawerClose,
+    DrawerContent,
+    DrawerHeader,
+    DrawerFooter,
+    DrawerTitle,
+    DrawerDescription,
+} from "./components/ui/drawer";
 
 const App = () => {
     return (
-        <div className="w-full max-w-sm p-4">
-            <Select defaultValue="medium" dir="rtl">
-                <SelectTrigger>
-                    <SelectValue placeholder="انتخاب اولویت" />
-                </SelectTrigger>
+        <div className="p-4">
+            <Drawer direction="left">
+                <DrawerTrigger asChild>
+                    <Button>مشاهده وظیفه</Button>
+                </DrawerTrigger>
 
-                <SelectContent>
-                    <SelectScrollUpButton />
+                <DrawerContent className="max-w-md w-full">
+                    <DrawerHeader>
+                        <DrawerTitle>جزئیات وظیفه</DrawerTitle>
 
-                    <SelectGroup>
-                        <SelectLabel>اولویت وظیفه</SelectLabel>
+                        <DrawerDescription>
+                            اطلاعات و جزئیات این وظیفه را مشاهده کنید.
+                        </DrawerDescription>
+                    </DrawerHeader>
 
-                        <SelectItem value="high">بالا</SelectItem>
+                    <div className="space-y-4 px-4">
+                        <div>
+                            <p className="text-sm font-medium">عنوان</p>
 
-                        <SelectItem value="medium">متوسط</SelectItem>
+                            <p className="mt-1 text-sm text-muted-foreground">
+                                طراحی صفحه داشبورد
+                            </p>
+                        </div>
 
-                        <SelectItem value="low">پایین</SelectItem>
-                    </SelectGroup>
+                        <div>
+                            <p className="text-sm font-medium">وضعیت</p>
 
-                    <SelectSeparator />
+                            <Badge className="mt-1">در حال انجام</Badge>
+                        </div>
 
-                    <SelectGroup>
-                        <SelectLabel>وضعیت</SelectLabel>
+                        <div>
+                            <p className="text-sm font-medium">اولویت</p>
 
-                        <SelectItem value="todo">انجام نشده</SelectItem>
+                            <p className="mt-1 text-sm text-muted-foreground">
+                                بالا
+                            </p>
+                        </div>
+                    </div>
 
-                        <SelectItem value="progress">در حال انجام</SelectItem>
+                    <DrawerFooter>
+                        <Button>ویرایش وظیفه</Button>
 
-                        <SelectItem value="done">انجام شده</SelectItem>
-                    </SelectGroup>
-
-                    <SelectScrollDownButton />
-                </SelectContent>
-            </Select>
+                        <DrawerClose asChild>
+                            <Button variant="outline">بستن</Button>
+                        </DrawerClose>
+                    </DrawerFooter>
+                </DrawerContent>
+            </Drawer>
         </div>
     );
 };
