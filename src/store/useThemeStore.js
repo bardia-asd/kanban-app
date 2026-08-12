@@ -25,6 +25,9 @@ export const useThemeStore = create(
         {
             // Persist the selected theme across sessions
             name: "theme-storage",
+            onRehydrateStorage: () => (state) => {
+                if (state) state.applyTheme(state.theme);
+            },
         },
     ),
 );
