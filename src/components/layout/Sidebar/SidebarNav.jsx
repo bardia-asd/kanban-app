@@ -14,6 +14,7 @@ const SidebarNav = ({ forceExpanded = false }) => {
                     <li className="w-full" key={item.label}>
                         <NavLink
                             to={item.to}
+                            end={item.to === "/"}
                             title={item.label}
                             className={({ isActive }) =>
                                 cn(
