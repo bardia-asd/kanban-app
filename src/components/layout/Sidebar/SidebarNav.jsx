@@ -3,8 +3,9 @@ import { sidebarItems } from "@/data/sidebarData";
 import { useSidebarStore } from "@/store/useSidebarStore";
 import { cn } from "@/utils/utils";
 
-const SidebarNav = () => {
-    const collapsed = useSidebarStore((s) => s.collapsed);
+const SidebarNav = ({ forceExpanded = false }) => {
+    const collapsedFromStore = useSidebarStore((s) => s.collapsed);
+    const collapsed = forceExpanded ? false : collapsedFromStore;
 
     return (
         <nav className="px-4 py-3" aria-label="ناوبری اصلی">

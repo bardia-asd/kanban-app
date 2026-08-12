@@ -1,11 +1,12 @@
 import { Outlet } from "react-router";
-import Sidebar from "../Sidebar";
+import Sidebar, { MobileSidebar } from "../Sidebar";
 import Header from "../Header";
 
 const AppLayout = () => {
     return (
         <div className="min-h-dvh bg-background text-foreground flex">
             <Sidebar />
+            <MobileSidebar />
 
             <div className="flex-1 flex flex-col min-w-0">
                 <Header />
