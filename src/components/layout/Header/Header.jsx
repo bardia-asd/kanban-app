@@ -3,6 +3,7 @@ import WorkspaceSwitcher from "./WorkspaceSwitcher";
 import GlobalSearch from "./GlobalSearch";
 import QuickCreate from "./QuickCreate";
 import UserMenu from "./UserMenu";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const Header = () => {
     return (
@@ -12,6 +13,8 @@ const Header = () => {
             <WorkspaceSwitcher />
 
             <GlobalSearch />
+
+            <ThemeSwitcher />
 
             <QuickCreate />
 
