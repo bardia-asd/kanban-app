@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useChartTheme } from "./useChartTheme";
 
 const ChartTooltip = ({

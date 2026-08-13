@@ -4,6 +4,8 @@ import PageHeader from "@/components/layout/PageHeader";
 import { Button } from "@/components/ui/button";
 
 import StatsGrid from "./components/Stats/StatsGrid";
+import WeeklyPerformance from "./components/WeeklyPerformance/WeeklyPerformance";
+import BurnDownChart from "./components/BurnDownChart";
 
 const Dashboard = () => {
     return (
@@ -25,6 +27,11 @@ const Dashboard = () => {
             />
 
             <StatsGrid />
+
+            <div className="grid gap-4 xl:grid-cols-3">
+                <WeeklyPerformance />
+                <BurnDownChart />
+            </div>
         </div>
     );
 };
