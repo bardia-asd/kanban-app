@@ -1,11 +1,13 @@
 import { Link } from "react-router";
 import { ArrowLeft } from "lucide-react";
 import PageHeader from "@/components/layout/PageHeader";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
+
+import StatsGrid from "./components/Stats/StatsGrid";
 
 const Dashboard = () => {
     return (
-        <>
+        <div className="space-y-6">
             <PageHeader
                 title="داشبورد"
                 description="خلاصه‌ای از وضعیت پروژه‌ها و وظایف شما"
@@ -21,7 +23,9 @@ const Dashboard = () => {
                     </Button>
                 }
             />
-        </>
+            
+            <StatsGrid />
+        </div>
     );
 };
 
