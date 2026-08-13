@@ -4,8 +4,11 @@ import PageHeader from "@/components/layout/PageHeader";
 import { Button } from "@/components/ui/button";
 
 import StatsGrid from "./components/Stats/StatsGrid";
-import WeeklyPerformance from "./components/WeeklyPerformance/WeeklyPerformance";
+import WeeklyPerformance from "./components/WeeklyPerformance";
 import BurnDownChart from "./components/BurnDownChart";
+import UpcomingDeadlines from "./components/UpcomingDeadlines";
+import ProjectsProgress from "./components/ProjectsProgress";
+import LatestActivities from "./components/LatestActivities/LatestActivities";
 
 const Dashboard = () => {
     return (
@@ -31,6 +34,14 @@ const Dashboard = () => {
             <div className="grid gap-4 xl:grid-cols-3">
                 <WeeklyPerformance />
                 <BurnDownChart />
+            </div>
+
+            <div className="grid gap-4 xl:grid-cols-3">
+                <UpcomingDeadlines />
+
+                <ProjectsProgress />
+
+                <LatestActivities />
             </div>
         </div>
     );

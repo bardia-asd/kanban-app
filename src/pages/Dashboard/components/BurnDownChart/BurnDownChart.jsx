@@ -35,7 +35,7 @@ const BurnDownChart = () => {
     return (
         <Card>
             <CardHeader className="flex-col gap-0">
-                <CardTitle>عملکرد هفتگی</CardTitle>
+                <CardTitle>نمودار برن‌داون</CardTitle>
                 <CardDescription>
                     وظایف ایجادشده در برابر تکمیل‌شده
                 </CardDescription>
