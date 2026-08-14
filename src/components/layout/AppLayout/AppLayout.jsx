@@ -12,7 +12,9 @@ const AppLayout = () => {
             <div className="flex-1 flex flex-col min-w-0">
                 <Header />
                 <main className="flex-1 min-w-0 container max-w-[1600px] mx-auto px-4 pb-24 pt-6 md:px-6 lg:pb-8">
-                    <Outlet />
+                    <div className="space-y-6">
+                        <Outlet />
+                    </div>
                 </main>
             </div>
 

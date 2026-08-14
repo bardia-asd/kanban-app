@@ -12,7 +12,7 @@ import LatestActivities from "./components/LatestActivities/LatestActivities";
 
 const Dashboard = () => {
     return (
-        <div className="space-y-6">
+        <>
             <PageHeader
                 title="داشبورد"
                 description="خلاصه‌ای از وضعیت پروژه‌ها و وظایف شما"
@@ -43,7 +43,7 @@ const Dashboard = () => {
 
                 <LatestActivities />
             </div>
-        </div>
+        </>
     );
 };
 
