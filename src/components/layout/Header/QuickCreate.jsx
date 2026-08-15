@@ -6,7 +6,7 @@ import {
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
-} from "@/components/ui/tooltip/tooltip";
+} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 
 const QuickCreate = () => {
