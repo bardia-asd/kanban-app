@@ -2,6 +2,7 @@ import { Outlet } from "react-router";
 import Sidebar, { MobileSidebar } from "../Sidebar";
 import Header from "../Header";
 import MobileNav from "../MobileNav/MobileNav";
+import { Toaster } from "@/components/ui/toaster";
 
 const AppLayout = () => {
     return (
@@ -19,6 +20,8 @@ const AppLayout = () => {
             </div>
 
             <MobileNav />
+
+            <Toaster />
         </div>
     );
 };
