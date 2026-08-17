@@ -1,7 +1,6 @@
-import { UserPlus } from "lucide-react";
 import PageHeader from "@/components/layout/PageHeader";
-import { Button } from "@/components/ui/button";
 import MemberList from "@/features/members/components/MemberList";
+import MemberAddDialog from "@/features/members/components/MemberAddDialog";
 
 const Members = () => {
     return (
@@ -9,11 +8,7 @@ const Members = () => {
             <PageHeader
                 title="اعضا"
                 description="مدیریت اعضای فضای کاری و نقش‌ها"
-                actions={
-                    <Button size="lg" className="rounded-full text-sm">
-                        <UserPlus size={16} /> دعوت عضو
-                    </Button>
-                }
+                actions={<MemberAddDialog />}
             />
 
             <MemberList />
