@@ -13,10 +13,10 @@ export const getColumns = async () => {
 };
 
 // Add a new column
-export const addColumn = async (column) => {
+export const addColumn = async () => {
     const { data, error } = await supabase
         .from("columns")
-        .insert(column)
+        .insert({})
         .select()
         .single();
 

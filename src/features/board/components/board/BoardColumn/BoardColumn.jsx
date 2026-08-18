@@ -1,4 +1,5 @@
-import { formatNumberFa } from "@/utils/formatter";
+import { useState } from "react";
+import { ChevronDown, ChevronUp, MoreHorizontal, Plus } from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -7,10 +8,9 @@ import {
     DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp, MoreHorizontal, Plus } from "lucide-react";
-import { useState } from "react";
+import { formatNumberFa } from "@/utils/formatter";
 
-const BoardColumn = ({ col }) => {
+const BoardColumn = ({ col, onRename, onDelete }) => {
     const [collapsed, setCollapsed] = useState(false);
 
     if (collapsed) {
@@ -55,14 +55,18 @@ const BoardColumn = ({ col }) => {
                         </DropdownMenuTrigger>
 
                         <DropdownMenuContent>
-                            <DropdownMenuItem>تغییر نام</DropdownMenuItem>
+                            <DropdownMenuItem onSelect={onRename}>
+                                تغییر نام
+                            </DropdownMenuItem>
                             <DropdownMenuItem
                                 onSelect={() => setCollapsed(true)}>
                                 جمع کردن ستون
                             </DropdownMenuItem>
                             <DropdownMenuItem>افزایش سقف WIP</DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem className="text-destructive">
+                            <DropdownMenuItem
+                                onSelect={onDelete}
+                                className="text-destructive">
                                 حذف ستون
                             </DropdownMenuItem>
                         </DropdownMenuContent>

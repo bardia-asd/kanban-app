@@ -1,5 +1,6 @@
 import PageHeader from "@/components/layout/PageHeader";
-import BoardColumns from "@/features/board/components/BoardColumns";
+import BoardColumns from "@/features/board/components/board/BoardColumns";
+import BoardToolbar from "@/features/board/components/board/BoardToolbar";
 
 const Board = () => {
     return (
@@ -9,7 +10,11 @@ const Board = () => {
                 description="وظایف را بکشید و بین ستون‌ها جابه‌جا کنید"
             />
 
-            <BoardColumns />
+            <div className="space-y-5">
+                <BoardToolbar />
+
+                <BoardColumns />
+            </div>
         </>
     );
 };

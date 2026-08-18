@@ -34,13 +34,13 @@ const SelectTrigger = forwardRef(
             <SelectPrimitive.Trigger
                 ref={ref}
                 className={cn(
-                    "group flex items-center justify-between h-9 w-full whitespace-nowrap rounded-md border border-input bg-transparent text-sm px-3 py-2 shadow cursor-pointer data-placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 transition-colors data-[state=open]:[&_svg]:rotate-180 [&_svg]:transition-transform [&_svg]:duration-200",
+                    "group flex items-center justify-between h-9 w-full whitespace-nowrap rounded-md border border-input bg-transparent text-sm px-3 py-2 shadow cursor-pointer data-placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 transition-colors [&_svg]:shrink-0",
                     className,
                 )}
                 {...props}>
                 {children}
                 <SelectPrimitive.Icon asChild>
-                    <ChevronDown className="size-4 opacity-50" />
+                    <ChevronDown className="size-4 opacity-50 group-data-[state=open]:rotate-180 transition-transform duration-200 " />
                 </SelectPrimitive.Icon>
             </SelectPrimitive.Trigger>
         );
