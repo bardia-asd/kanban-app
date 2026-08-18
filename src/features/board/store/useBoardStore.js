@@ -17,4 +17,6 @@ export const useBoardStore = create((set) => ({
             set({ error: err.message, isLoading: false });
         }
     },
+
+    
 }));
