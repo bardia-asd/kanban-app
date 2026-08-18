@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import { ChevronDown, ChevronUp, MoreHorizontal, Plus } from "lucide-react";
 import {
     DropdownMenu,
@@ -94,6 +95,16 @@ const BoardColumn = ({ col, onRename, onDelete }) => {
             </div>
         </section>
     );
+};
+
+BoardColumn.propTypes = {
+    col: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        accent: PropTypes.string.isRequired,
+        wip_limit: PropTypes.number.isRequired,
+    }).isRequired,
+    onRename: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
 };
 
 export default BoardColumn;

@@ -1,5 +1,10 @@
 import { create } from "zustand";
-import { addColumn, getColumns } from "../services/columnService";
+import {
+    addColumn,
+    deleteColumn,
+    getColumns,
+    updateColumn,
+} from "../services/columnService";
 
 export const useBoardStore = create((set) => ({
     columns: [],
@@ -7,8 +12,12 @@ export const useBoardStore = create((set) => ({
     mutationLoading: false,
     error: null,
 
+    // Fetch all board columns
     fetchColumns: async () => {
-        set({ fetchLoading: true, error: null });
+        set({
+            fetchLoading: true,
+            error: null,
+        });
 
         try {
             const data = await getColumns();
@@ -25,14 +34,15 @@ export const useBoardStore = create((set) => ({
         }
     },
 
-    createColumn: async () => {
+    // Create a new board column
+    createColumn: async (column) => {
         set({
             mutationLoading: true,
             error: null,
         });
 
         try {
-            const data = await addColumn();
+            const data = await addColumn(column);
 
             set((state) => ({
                 columns: [...state.columns, data],
@@ -42,6 +52,71 @@ export const useBoardStore = create((set) => ({
             return {
                 success: true,
                 data,
+            };
+        } catch (err) {
+            set({
+                error: err.message,
+                mutationLoading: false,
+            });
+
+            return {
+                success: false,
+                error: err.message,
+            };
+        }
+    },
+
+    // Rename an existing column
+    renameColumn: async (id, title) => {
+        set({
+            mutationLoading: true,
+            error: null,
+        });
+
+        try {
+            const data = await updateColumn(id, { title });
+
+            set((state) => ({
+                columns: state.columns.map((column) =>
+                    column.id === id ? data : column,
+                ),
+                mutationLoading: false,
+            }));
+
+            return {
+                success: true,
+                data,
+            };
+        } catch (err) {
+            set({
+                error: err.message,
+                mutationLoading: false,
+            });
+
+            return {
+                success: false,
+                error: err.message,
+            };
+        }
+    },
+
+    // Delete a column and remove it from the local state
+    deleteColumn: async (id) => {
+        set({
+            mutationLoading: true,
+            error: null,
+        });
+
+        try {
+            await deleteColumn(id);
+
+            set((state) => ({
+                columns: state.columns.filter((column) => column.id !== id),
+                mutationLoading: false,
+            }));
+
+            return {
+                success: true,
             };
         } catch (err) {
             set({

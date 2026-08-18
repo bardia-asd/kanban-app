@@ -5,6 +5,8 @@ import BoardColumn, {
     BoardColumnError,
     BoardColumnSkeleton,
 } from "../board/BoardColumn";
+import DeleteColumnAlertDialog from "./DeleteColumnAlertDialog";
+import RenameColumnDialog from "./RenameColumnDialog";
 
 const BoardColumns = () => {
     const columns = useBoardStore((s) => s.columns);
@@ -55,6 +57,22 @@ const BoardColumns = () => {
                         />
                     ))}
             </div>
+
+            <DeleteColumnAlertDialog
+                column={deleteColumn}
+                open={!!deleteColumn}
+                onOpenChange={(open) => {
+                    if (!open) setDeleteColumn(null);
+                }}
+            />
+
+            <RenameColumnDialog
+                column={renameColumn}
+                open={!!renameColumn}
+                onOpenChange={(open) => {
+                    if (!open) setRenameColumn(null);
+                }}
+            />
         </>
     );
 };
