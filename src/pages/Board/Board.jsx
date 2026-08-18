@@ -1,7 +1,17 @@
-const Board = () => {
-  return (
-    <div>Board</div>
-  )
-}
+import PageHeader from "@/components/layout/PageHeader";
+import BoardColumns from "@/features/board/components/BoardColumns";
 
-export default Board
+const Board = () => {
+    return (
+        <>
+            <PageHeader
+                title="برد کانبان"
+                description="وظایف را بکشید و بین ستون‌ها جابه‌جا کنید"
+            />
+
+            <BoardColumns />
+        </>
+    );
+};
+
+export default Board;
