@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 import PropTypes from "prop-types";
 import { ChevronDown, ChevronUp, MoreHorizontal, Plus } from "lucide-react";
+import { useTasksStore } from "@/features/board/store/useTasksStore";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -11,8 +13,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { formatNumberFa } from "@/utils/formatter";
 
+import TaskCard from "@/features/board/components/tasks/TaskCard";
+import TaskCardEmpty from "@/features/board/components/tasks/states/TaskCardEmpty";
+
 const BoardColumn = ({ col, onRename, onDelete }) => {
     const [collapsed, setCollapsed] = useState(false);
+
+    const tasks = useTasksStore(
+        useShallow((s) => s.tasks.filter((t) => t.column_id === col.id)),
+    );
 
     if (collapsed) {
         return (
@@ -85,7 +94,9 @@ const BoardColumn = ({ col, onRename, onDelete }) => {
             </header>
 
             <div className="flex flex-col gap-3 min-h-20">
-                {/* Tasks show here */}
+                {tasks.length === 0 && <TaskCardEmpty />}
+                {tasks.length > 0 &&
+                    tasks.map((t) => <TaskCard key={t.id} task={t} />)}
                 <Button
                     size="lg"
                     variant="ghost"

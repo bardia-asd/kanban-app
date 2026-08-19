@@ -32,7 +32,7 @@ const Progress = forwardRef(({ className = "", value, ...props }, ref) => {
                 }
                 style={{
                     // Move the indicator to represent the current progress value
-                    transform: `translateX(-${100 - value}%)`,
+                    transform: `translateX(${100 - value}%)`,
                 }}
             />
         </ProgressPrimitive.Root>

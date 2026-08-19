@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useBoardStore } from "@/features/board/store/useBoardStore";
+import { useTasksStore } from "@/features/board/store/useTasksStore";
 import BoardColumn, {
     BoardColumnEmpty,
     BoardColumnError,
@@ -14,6 +15,8 @@ const BoardColumns = () => {
     const error = useBoardStore((s) => s.error);
     const fetchColumns = useBoardStore((s) => s.fetchColumns);
     const createColumn = useBoardStore((s) => s.createColumn);
+
+    const fetchTasks = useTasksStore((s) => s.fetchTasks);
 
     const [renameColumn, setRenameColumn] = useState(null);
     const [deleteColumn, setDeleteColumn] = useState(null);
@@ -30,6 +33,7 @@ const BoardColumns = () => {
 
     useEffect(() => {
         fetchColumns();
+        fetchTasks();
     }, []);
 
     return (

@@ -21,9 +21,9 @@ const BoardColumnSkeleton = () => {
 
             {/* Tasks */}
             <div className="flex flex-col gap-3 min-h-20">
-                <Skeleton className="h-10 w-full rounded-2xl" />
-                <Skeleton className="h-10 w-full rounded-2xl" />
-                <Skeleton className="h-10 w-full rounded-2xl" />
+                <Skeleton className="h-24 w-full rounded-2xl" />
+                <Skeleton className="h-24 w-full rounded-2xl" />
+                <Skeleton className="h-24 w-full rounded-2xl" />
             </div>
 
             {/* Add task */}

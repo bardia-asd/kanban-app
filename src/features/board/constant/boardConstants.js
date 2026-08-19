@@ -16,3 +16,27 @@ export const PRIORITY_META = {
         color: "var(--destructive)",
     },
 };
+
+export const LABEL_COLOR_META = {
+    default: {
+        color: "var(--muted-foreground)",
+    },
+    primary: {
+        color: "var(--primary)",
+    },
+    secondary: {
+        color: "var(--secondary-foreground)",
+    },
+    info: {
+        color: "var(--info)",
+    },
+    success: {
+        color: "var(--success)",
+    },
+    warning: {
+        color: "var(--warning)",
+    },
+    destructive: {
+        color: "var(--destructive)",
+    },
+};
