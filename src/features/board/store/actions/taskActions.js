@@ -2,6 +2,7 @@ import {
     addTask,
     deleteTask,
     getTasks,
+    updateTaskPosition,
     updateTask,
 } from "@/features/board/services/tasksService";
 
@@ -86,6 +87,29 @@ export const taskActions = (set, get) => ({
             set({
                 error: err.message,
                 mutationLoading: false,
+            });
+
+            return {
+                success: false,
+                error: err.message,
+            };
+        }
+    },
+
+    // Move a task to another column and update its position
+    moveTask: async (id, { newColumnId, newPosition }) => {
+        try {
+            await updateTaskPosition(id, {
+                column_id: newColumnId,
+                position: newPosition,
+            });
+
+            return {
+                success: true,
+            };
+        } catch (err) {
+            set({
+                error: err.message,
             });
 
             return {

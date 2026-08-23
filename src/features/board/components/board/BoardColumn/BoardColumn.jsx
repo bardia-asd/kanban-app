@@ -15,13 +15,29 @@ import { formatNumberFa } from "@/utils/formatter";
 
 import TaskCard from "@/features/board/components/tasks/TaskCard";
 import TaskCardEmpty from "@/features/board/components/tasks/states/TaskCardEmpty";
+import { useDroppable } from "@dnd-kit/react";
+import { cn } from "@/utils/utils";
 
 const BoardColumn = ({ col, onRename, onDelete }) => {
     const [collapsed, setCollapsed] = useState(false);
 
     const tasks = useTasksStore(
-        useShallow((s) => s.tasks.filter((t) => t.column_id === col.id)),
+        useShallow((s) =>
+            s.tasks
+                .filter((t) => t.column_id === col.id)
+                .sort((a, b) => a.position - b.position),
+        ),
     );
+
+    const { ref, isDropTarget } = useDroppable({
+        id: col.id,
+        type: "column",
+        accept: "task",
+        data: {
+            columnId: col.id,
+            position: tasks.length,
+        },
+    });
 
     if (collapsed) {
         return (
@@ -39,7 +55,10 @@ const BoardColumn = ({ col, onRename, onDelete }) => {
 
     return (
         <section
-            className="shrink-0 flex flex-col gap-3 w-76 bg-secondary/40 border border-border rounded-3xl p-3"
+            className={cn(
+                "shrink-0 flex flex-col gap-3 w-76 bg-secondary/40 border border-border rounded-3xl p-3",
+                isDropTarget && "border-primary bg-primary-soft/40",
+            )}
             aria-label={col.title}>
             <header className="flex items-center justify-between gap-2 px-1">
                 <div className="flex items-center gap-2">
@@ -92,11 +111,17 @@ const BoardColumn = ({ col, onRename, onDelete }) => {
                     </Button>
                 </div>
             </header>
-
-            <div className="flex flex-col gap-3 min-h-20">
+            <div ref={ref} className="flex flex-col gap-3 min-h-20">
                 {tasks.length === 0 && <TaskCardEmpty />}
-                {tasks.length > 0 &&
-                    tasks.map((t) => <TaskCard key={t.id} task={t} />)}
+                {tasks.map((task, i) => (
+                    <TaskCard
+                        key={task.id}
+                        task={task}
+                        index={i}
+                        columnId={col.id}
+                    />
+                ))}
+
                 <Button
                     size="lg"
                     variant="ghost"

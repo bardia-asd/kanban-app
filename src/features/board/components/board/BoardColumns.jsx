@@ -8,15 +8,35 @@ import BoardColumn, {
 } from "../board/BoardColumn";
 import DeleteColumnAlertDialog from "./DeleteColumnAlertDialog";
 import RenameColumnDialog from "./RenameColumnDialog";
+import { DragDropProvider } from "@dnd-kit/react";
+import { toast } from "sonner";
 
 const BoardColumns = () => {
     const columns = useBoardStore((s) => s.columns);
     const isLoading = useBoardStore((s) => s.fetchLoading);
     const error = useBoardStore((s) => s.error);
+
     const fetchColumns = useBoardStore((s) => s.fetchColumns);
     const createColumn = useBoardStore((s) => s.createColumn);
 
     const fetchTasks = useTasksStore((s) => s.fetchTasks);
+    const moveTask = useTasksStore((s) => s.moveTask);
+
+    const handleDragEnd = async (event) => {
+        if (event.canceled) return;
+
+        const { source, target } = event.operation;
+
+        if (!source || !target) return;
+
+        const newColumnId = target.group ?? target.id;
+        const newPosition = target.index ?? 0;
+
+        await moveTask(source.id, {
+            newColumnId,
+            newPosition,
+        });
+    };
 
     const [renameColumn, setRenameColumn] = useState(null);
     const [deleteColumn, setDeleteColumn] = useState(null);
@@ -34,10 +54,10 @@ const BoardColumns = () => {
     useEffect(() => {
         fetchColumns();
         fetchTasks();
-    }, []);
+    }, [fetchColumns, fetchTasks]);
 
     return (
-        <>
+        <DragDropProvider onDragEnd={handleDragEnd}>
             <div className="flex gap-4 overflow-x-auto pb-3">
                 {isLoading && <BoardColumnSkeleton />}
 
@@ -66,7 +86,9 @@ const BoardColumns = () => {
                 column={deleteColumn}
                 open={!!deleteColumn}
                 onOpenChange={(open) => {
-                    if (!open) setDeleteColumn(null);
+                    if (!open) {
+                        setDeleteColumn(null);
+                    }
                 }}
             />
 
@@ -74,10 +96,12 @@ const BoardColumns = () => {
                 column={renameColumn}
                 open={!!renameColumn}
                 onOpenChange={(open) => {
-                    if (!open) setRenameColumn(null);
+                    if (!open) {
+                        setRenameColumn(null);
+                    }
                 }}
             />
-        </>
+        </DragDropProvider>
     );
 };
 

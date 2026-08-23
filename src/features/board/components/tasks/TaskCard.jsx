@@ -22,8 +22,21 @@ import {
 } from "@/features/board/constant/boardConstants";
 import { formatNumberFa, formatDateShort } from "@/utils/formatter";
 import { getInitials, cn } from "@/utils/utils";
+import { useSortable } from "@dnd-kit/react/sortable";
 
-const TaskCard = ({ task }) => {
+const TaskCard = ({ task, index, columnId }) => {
+    const { ref, isDragging } = useSortable({
+        id: task.id,
+        index,
+        group: columnId,
+        type: "task",
+        accept: "task",
+        data: {
+            taskId: task.id,
+            columnId,
+            position: index,
+        },
+    });
     // Calculate the number of completed checklist items
     const done = task.checklist_items.filter((item) => item.done).length;
     const priority = PRIORITY_META[task.priority];
@@ -36,7 +49,13 @@ const TaskCard = ({ task }) => {
     };
 
     return (
-        <article aria-label={task.title}>
+        <article
+            ref={ref}
+            aria-label={task.title}
+            className={cn(
+                "transition-opacity duration-200",
+                isDragging && "opacity-40",
+            )}>
             <Card className="group cursor-grab transition-all duration-200 hover:-translate-y-0.5">
                 <CardHeader className="items-start justify-start gap-2">
                     {/* Drag handle */}

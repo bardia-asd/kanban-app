@@ -63,6 +63,23 @@ export const updateTask = async (id, updates) => {
     return data;
 };
 
+// Update a task's column and position after a drag-and-drop operation
+export const updateTaskPosition = async (id, { column_id, position }) => {
+    const { data, error } = await supabase
+        .from("tasks")
+        .update({
+            column_id,
+            position,
+        })
+        .eq("id", id)
+        .select()
+        .single();
+
+    if (error) throw error;
+
+    return data;
+};
+
 // Delete a task by its ID
 export const deleteTask = async (id) => {
     const { error } = await supabase.from("tasks").delete().eq("id", id);
