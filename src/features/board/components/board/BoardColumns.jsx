@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
+
+import { DragDropProvider } from "@dnd-kit/react";
+import { toast } from "sonner";
+
 import { useBoardStore } from "@/features/board/store/useBoardStore";
 import { useTasksStore } from "@/features/board/store/useTasksStore";
 import BoardColumn, {
     BoardColumnEmpty,
     BoardColumnError,
     BoardColumnSkeleton,
-} from "../board/BoardColumn";
-import DeleteColumnAlertDialog from "./DeleteColumnAlertDialog";
-import RenameColumnDialog from "./RenameColumnDialog";
-import { DragDropProvider } from "@dnd-kit/react";
-import { toast } from "sonner";
+} from "@/features/board/components/board/BoardColumn";
+import DeleteColumnAlertDialog from "@/features/board/components/board/DeleteColumnAlertDialog";
+import RenameColumnDialog from "@/features/board/components/board/RenameColumnDialog";
+import DeleteTaskAlertDialog from "../tasks/DeleteTaskAlertDialog";
 
 const BoardColumns = () => {
     const columns = useBoardStore((s) => s.columns);
@@ -40,6 +43,7 @@ const BoardColumns = () => {
 
     const [renameColumn, setRenameColumn] = useState(null);
     const [deleteColumn, setDeleteColumn] = useState(null);
+    const [addingColumnId, setAddingColumnId] = useState(null);
 
     const handleAddColumn = async () => {
         const result = await createColumn();
@@ -76,6 +80,9 @@ const BoardColumns = () => {
                         <BoardColumn
                             key={col.id}
                             col={col}
+                            isAdding={addingColumnId === col.id}
+                            onStartAdding={() => setAddingColumnId(col.id)}
+                            onStopAdding={() => setAddingColumnId(null)}
                             onRename={() => setRenameColumn(col)}
                             onDelete={() => setDeleteColumn(col)}
                         />
@@ -101,6 +108,8 @@ const BoardColumns = () => {
                     }
                 }}
             />
+
+            <DeleteTaskAlertDialog />
         </DragDropProvider>
     );
 };

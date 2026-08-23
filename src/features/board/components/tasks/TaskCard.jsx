@@ -1,10 +1,14 @@
 import PropTypes from "prop-types";
+
 import {
     CalendarDays,
     CheckSquare,
     GripVertical,
     MessageSquare,
+    MoreHorizontal,
 } from "lucide-react";
+import { useSortable } from "@dnd-kit/react/sortable";
+
 import {
     Card,
     CardContent,
@@ -13,16 +17,26 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import {
-    PRIORITY_META,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import {
     LABEL_COLOR_META,
+    PRIORITY_META,
 } from "@/features/board/constant/boardConstants";
-import { formatNumberFa, formatDateShort } from "@/utils/formatter";
-import { getInitials, cn } from "@/utils/utils";
-import { useSortable } from "@dnd-kit/react/sortable";
+
+import { formatDateShort, formatNumberFa } from "@/utils/formatter";
+import { cn, getInitials } from "@/utils/utils";
+
+import { useTasksStore } from "@/features/board/store/useTasksStore";
 
 const TaskCard = ({ task, index, columnId }) => {
     const { ref, isDragging } = useSortable({
@@ -41,6 +55,8 @@ const TaskCard = ({ task, index, columnId }) => {
     const done = task.checklist_items.filter((item) => item.done).length;
     const priority = PRIORITY_META[task.priority];
 
+    const requestDeleteTask = useTasksStore((s) => s.requestDeleteTask);
+
     // Check whether the task due date has passed
     const isOverdue = (date) => {
         if (!date) return false;
@@ -58,20 +74,40 @@ const TaskCard = ({ task, index, columnId }) => {
             )}>
             <Card className="group cursor-grab transition-all duration-200 hover:-translate-y-0.5">
                 <CardHeader className="items-start justify-start gap-2">
-                    {/* Drag handle */}
                     <GripVertical className="mt-0.5 size-4 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
 
                     <div className="min-w-0 flex-1">
                         <CardTitle className="line-clamp-2 text-sm leading-6">
                             {task.title}
                         </CardTitle>
-
                         {task.description && (
                             <CardDescription className="mt-1 line-clamp-2 text-xs leading-5">
                                 {task.description}
                             </CardDescription>
                         )}
                     </div>
+
+                    <DropdownMenu dir="rtl">
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                size="icon"
+                                variant="ghost"
+                                className="size-7 shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
+                                onPointerDown={(e) => e.stopPropagation()}
+                                onClick={(e) => e.stopPropagation()}>
+                                <MoreHorizontal size={14} />
+                            </Button>
+                        </DropdownMenuTrigger>
+
+                        <DropdownMenuContent align="center">
+                            <DropdownMenuItem>ویرایش</DropdownMenuItem>
+                            <DropdownMenuItem
+                                className="text-destructive"
+                                onSelect={() => requestDeleteTask(task.id)}>
+                                حذف وظیفه
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </CardHeader>
 
                 <CardContent className="space-y-3">
