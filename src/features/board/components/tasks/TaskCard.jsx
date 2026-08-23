@@ -36,7 +36,7 @@ import {
 import { formatDateShort, formatNumberFa } from "@/utils/formatter";
 import { cn, getInitials } from "@/utils/utils";
 
-import { useTasksStore } from "@/features/board/store/useTasksStore";
+import { useBoardUIStore } from "@/features/board/store/useBoardUIStore";
 
 const TaskCard = ({ task, index, columnId }) => {
     const { ref, isDragging } = useSortable({
@@ -55,7 +55,7 @@ const TaskCard = ({ task, index, columnId }) => {
     const done = task.checklist_items.filter((item) => item.done).length;
     const priority = PRIORITY_META[task.priority];
 
-    const requestDeleteTask = useTasksStore((s) => s.requestDeleteTask);
+    const requestDeleteTask = useBoardUIStore((s) => s.requestDeleteTask);
 
     // Check whether the task due date has passed
     const isOverdue = (date) => {

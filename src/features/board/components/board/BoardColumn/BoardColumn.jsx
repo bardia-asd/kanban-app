@@ -25,6 +25,7 @@ import { cn } from "@/utils/utils";
 
 const BoardColumn = ({
     col,
+    tasks,
     onRename,
     onDelete,
     isAdding,
@@ -33,15 +34,6 @@ const BoardColumn = ({
 }) => {
     const [collapsed, setCollapsed] = useState(false);
     const [newTaskTitle, setNewTaskTitle] = useState("");
-
-    // Get and sort tasks belonging to this column
-    const tasks = useTasksStore(
-        useShallow((s) =>
-            s.tasks
-                .filter((task) => task.column_id === col.id)
-                .sort((a, b) => a.position - b.position),
-        ),
-    );
 
     const createTask = useTasksStore((s) => s.createTask);
 

@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { DragDropProvider } from "@dnd-kit/react";
 import { toast } from "sonner";
 
 import { useBoardStore } from "@/features/board/store/useBoardStore";
 import { useTasksStore } from "@/features/board/store/useTasksStore";
+import { useBoardUIStore } from "@/features/board/store/useBoardUIStore";
+
 import BoardColumn, {
     BoardColumnEmpty,
     BoardColumnError,
@@ -15,16 +17,50 @@ import RenameColumnDialog from "@/features/board/components/board/RenameColumnDi
 import DeleteTaskAlertDialog from "../tasks/DeleteTaskAlertDialog";
 
 const BoardColumns = () => {
+    // Board columns and their loading/error states.
     const columns = useBoardStore((s) => s.columns);
     const isLoading = useBoardStore((s) => s.fetchLoading);
     const error = useBoardStore((s) => s.error);
-
     const fetchColumns = useBoardStore((s) => s.fetchColumns);
     const createColumn = useBoardStore((s) => s.createColumn);
 
+    // Tasks and task actions.
+    const tasks = useTasksStore((s) => s.tasks);
     const fetchTasks = useTasksStore((s) => s.fetchTasks);
     const moveTask = useTasksStore((s) => s.moveTask);
 
+    // Board search and priority filter.
+    const searchQuery = useBoardUIStore((s) => s.searchQuery);
+    const priorityFilter = useBoardUIStore((s) => s.priorityFilter);
+
+    // Filter tasks and group them by their column.
+    const tasksByColumn = useMemo(() => {
+        const q = searchQuery.trim().toLowerCase();
+
+        const filtered = tasks.filter((t) => {
+            const matchesQuery =
+                !q ||
+                t.title.toLowerCase().includes(q) ||
+                t.description?.toLowerCase().includes(q);
+
+            const matchesPriority =
+                priorityFilter === "all" || t.priority === priorityFilter;
+
+            return matchesQuery && matchesPriority;
+        });
+
+        const map = {};
+
+        for (const col of columns) {
+            map[col.id] = filtered
+                .filter((t) => t.column_id === col.id)
+                .sort((a, b) => a.position - b.position);
+        }
+
+        return map;
+    }, [tasks, columns, searchQuery, priorityFilter]);
+
+    // Move the dragged task to its new column and position.
     const handleDragEnd = async (event) => {
         if (event.canceled) return;
 
@@ -41,10 +77,12 @@ const BoardColumns = () => {
         });
     };
 
+    // Dialog and inline task creation states.
     const [renameColumn, setRenameColumn] = useState(null);
     const [deleteColumn, setDeleteColumn] = useState(null);
     const [addingColumnId, setAddingColumnId] = useState(null);
 
+    // Create a new board column.
     const handleAddColumn = async () => {
         const result = await createColumn();
 
@@ -55,6 +93,7 @@ const BoardColumns = () => {
         }
     };
 
+    // Fetch columns and tasks when the board is mounted.
     useEffect(() => {
         fetchColumns();
         fetchTasks();
@@ -80,6 +119,7 @@ const BoardColumns = () => {
                         <BoardColumn
                             key={col.id}
                             col={col}
+                            tasks={tasksByColumn[col.id] ?? []}
                             isAdding={addingColumnId === col.id}
                             onStartAdding={() => setAddingColumnId(col.id)}
                             onStopAdding={() => setAddingColumnId(null)}
@@ -89,6 +129,7 @@ const BoardColumns = () => {
                     ))}
             </div>
 
+            {/* Column deletion confirmation dialog. */}
             <DeleteColumnAlertDialog
                 column={deleteColumn}
                 open={!!deleteColumn}
@@ -99,6 +140,7 @@ const BoardColumns = () => {
                 }}
             />
 
+            {/* Column rename dialog. */}
             <RenameColumnDialog
                 column={renameColumn}
                 open={!!renameColumn}
@@ -109,6 +151,7 @@ const BoardColumns = () => {
                 }}
             />
 
+            {/* Task deletion confirmation dialog. */}
             <DeleteTaskAlertDialog />
         </DragDropProvider>
     );

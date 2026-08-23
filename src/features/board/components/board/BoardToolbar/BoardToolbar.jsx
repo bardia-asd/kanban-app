@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Filter, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -13,22 +12,21 @@ import {
 import { useBoardStore } from "@/features/board/store/useBoardStore";
 import { PRIORITY_META } from "@/features/board/constant/boardConstants";
 import { toast } from "sonner";
+import { useBoardUIStore } from "@/features/board/store/useBoardUIStore";
 
 const BoardToolbar = () => {
-    const [searchQuery, setSearchQuery] = useState("");
-    const [priority, setPriority] = useState("all");
+    const searchQuery = useBoardUIStore((s) => s.searchQuery);
+    const setSearchQuery = useBoardUIStore((s) => s.setSearchQuery);
+    const priorityFilter = useBoardUIStore((s) => s.priorityFilter);
+    const setPriorityFilter = useBoardUIStore((s) => s.setPriorityFilter);
 
     const createColumn = useBoardStore((s) => s.createColumn);
 
     const handleAddColumn = async () => {
         const result = await createColumn();
-
-        if (result.success) {
-            toast.success("عضو با موفقیت اضافه شد");
-            setOpen(false);
-        } else {
-            toast.error(result.error || "خطا در افزودن عضو");
-        }
+        result.success
+            ? toast.success("ستون با موفقیت اضافه شد")
+            : toast.error(result.error || "خطا در افزودن ستون");
     };
 
     return (
@@ -43,7 +41,10 @@ const BoardToolbar = () => {
                 />
             </div>
 
-            <Select dir="rtl" value={priority} onValueChange={setPriority}>
+            <Select
+                dir="rtl"
+                value={priorityFilter}
+                onValueChange={setPriorityFilter}>
                 <SelectTrigger className="rounded-full w-40 h-11 gap-2.5">
                     <Filter size={16} />
                     <SelectValue />
@@ -65,8 +66,7 @@ const BoardToolbar = () => {
                 variant="outline"
                 className="text-sm rounded-full"
                 onClick={handleAddColumn}>
-                <Plus size={16} />
-                ستون جدید
+                <Plus size={16} /> ستون جدید
             </Button>
         </div>
     );

@@ -152,5 +152,7 @@ export const taskActions = (set, get) => ({
 
     // Get tasks belonging to a specific column
     getTasksByColumn: (columnId) =>
-        get().tasks.filter((task) => task.column_id === columnId),
+        get()
+            .tasks.filter((task) => task.column_id === columnId)
+            .sort((a, b) => a.position - b.position),
 });

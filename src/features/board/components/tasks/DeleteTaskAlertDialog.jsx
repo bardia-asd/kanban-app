@@ -8,13 +8,14 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-
-import { useTasksStore } from "@/features/board/store/useTasksStore";
 import { toast } from "sonner";
 
+import { useTasksStore } from "@/features/board/store/useTasksStore";
+import { useBoardUIStore } from "@/features/board/store/useBoardUIStore";
+
 const DeleteTaskAlertDialog = () => {
-    const pendingDeleteTaskId = useTasksStore((s) => s.pendingDeleteTaskId);
-    const clearPendingDelete = useTasksStore((s) => s.clearPendingDelete);
+    const pendingDeleteTaskId = useBoardUIStore((s) => s.pendingDeleteTaskId);
+    const clearPendingDelete = useBoardUIStore((s) => s.clearPendingDelete);
     const removeTask = useTasksStore((s) => s.removeTask);
     const deleteLoading = useTasksStore((s) => s.mutationLoading);
 
@@ -49,15 +50,15 @@ const DeleteTaskAlertDialog = () => {
                     </AlertDialogDescription>
                 </AlertDialogHeader>
 
-                <AlertDialogFooter className="flex-col-reverse pt-3">
-                    <AlertDialogCancel>انصراف</AlertDialogCancel>
-
+                <AlertDialogFooter className="pt-3">
                     <AlertDialogAction
                         onClick={handleDeleteTask}
                         disabled={deleteLoading}
                         className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
                         {deleteLoading ? "در حال حذف..." : "حذف"}
                     </AlertDialogAction>
+
+                    <AlertDialogCancel>انصراف</AlertDialogCancel>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
