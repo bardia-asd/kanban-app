@@ -70,10 +70,10 @@ const TaskCard = ({ task, index, columnId }) => {
             ref={ref}
             aria-label={task.title}
             className={cn(
-                "transition-opacity duration-200",
+                "h-full transition-opacity duration-200",
                 isDragging && "opacity-40",
             )}>
-            <Card className="group cursor-grab transition-all duration-200 hover:-translate-y-0.5">
+            <Card className="group flex flex-col h-full cursor-grab transition-all duration-200 hover:-translate-y-0.5">
                 <CardHeader className="items-start justify-start gap-2">
                     <GripVertical className="mt-0.5 size-4 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
 
@@ -116,7 +116,7 @@ const TaskCard = ({ task, index, columnId }) => {
                     </DropdownMenu>
                 </CardHeader>
 
-                <CardContent className="space-y-3">
+                <CardContent className="space-y-3 flex-1">
                     <div className="flex flex-wrap items-center gap-1.5">
                         <Badge
                             style={{
@@ -169,7 +169,7 @@ const TaskCard = ({ task, index, columnId }) => {
                     )}
                 </CardContent>
 
-                <CardFooter className="justify-between border-t border-border pt-3">
+                <CardFooter className="justify-between border-t border-border pt-3 mt-auto">
                     <div className="flex items-center gap-3 text-xs text-muted-foreground">
                         {task.due_date && (
                             <span
