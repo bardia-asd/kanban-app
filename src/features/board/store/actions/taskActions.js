@@ -5,6 +5,10 @@ import {
     updateTaskPosition,
     updateTask,
 } from "@/features/board/services/tasksService";
+import {
+    setTaskAssignees,
+    setTaskLabels,
+} from "@/features/board/services/taskRelationsService";
 
 // Task-related actions for fetching and managing tasks
 export const taskActions = (set, get) => ({
@@ -70,7 +74,18 @@ export const taskActions = (set, get) => ({
         });
 
         try {
-            const data = await updateTask(id, updates);
+            const { task_labels, task_assignees, ...taskFields } = updates;
+
+            await Promise.all([
+                task_labels !== undefined
+                    ? setTaskLabels(id, task_labels)
+                    : Promise.resolve(),
+                task_assignees !== undefined
+                    ? setTaskAssignees(id, task_assignees)
+                    : Promise.resolve(),
+            ]);
+
+            const data = await updateTask(id, taskFields);
 
             set((state) => ({
                 tasks: state.tasks.map((task) =>

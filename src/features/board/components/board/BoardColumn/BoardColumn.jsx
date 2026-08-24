@@ -2,7 +2,6 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { ChevronDown, ChevronUp, MoreHorizontal, Plus } from "lucide-react";
 import { useDroppable } from "@dnd-kit/react";
-import { useShallow } from "zustand/react/shallow";
 import { toast } from "sonner";
 
 import { useTasksStore } from "@/features/board/store/useTasksStore";
@@ -37,7 +36,7 @@ const BoardColumn = ({
 
     const createTask = useTasksStore((s) => s.createTask);
 
-    // Configure the column as a drop target for tasks
+    // Configure the column as a drop target for tasks.
     const { ref, isDropTarget } = useDroppable({
         id: col.id,
         type: "column",
@@ -48,7 +47,7 @@ const BoardColumn = ({
         },
     });
 
-    // Create a task in this column
+    // Create a task in this column.
     const handleAddTask = async (e) => {
         e.preventDefault();
 
@@ -75,13 +74,13 @@ const BoardColumn = ({
         }
     };
 
-    // Cancel task creation and reset the input
+    // Cancel task creation and reset the input.
     const handleCancel = () => {
         onStopAdding();
         setNewTaskTitle("");
     };
 
-    // Render the collapsed column view
+    // Render the collapsed column view.
     if (collapsed) {
         return (
             <button
@@ -117,7 +116,7 @@ const BoardColumn = ({
                 </div>
 
                 <div className="flex items-center gap-2">
-                    {/* Column actions */}
+                    {/* Column actions. */}
                     <DropdownMenu dir="rtl">
                         <DropdownMenuTrigger asChild>
                             <Button
@@ -150,7 +149,7 @@ const BoardColumn = ({
                         </DropdownMenuContent>
                     </DropdownMenu>
 
-                    {/* Collapse column */}
+                    {/* Collapse column. */}
                     <Button
                         size="icon"
                         variant="ghost"
@@ -162,7 +161,7 @@ const BoardColumn = ({
                 </div>
             </header>
 
-            {/* Task drop zone */}
+            {/* Task drop zone. */}
             <div
                 ref={ref}
                 className="flex max-h-[calc(100vh-14rem)] min-h-20 flex-col gap-3 overflow-y-auto p-3">
@@ -177,7 +176,7 @@ const BoardColumn = ({
                     />
                 ))}
 
-                {/* Add task form */}
+                {/* Add task form. */}
                 {isAdding ? (
                     <form className="space-y-2" onSubmit={handleAddTask}>
                         <Input
@@ -217,7 +216,6 @@ const BoardColumn = ({
 };
 
 BoardColumn.propTypes = {
-    /** Column data displayed by the component. */
     col: PropTypes.shape({
         id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
             .isRequired,
@@ -225,20 +223,16 @@ BoardColumn.propTypes = {
         accent: PropTypes.string.isRequired,
         wip_limit: PropTypes.number.isRequired,
     }).isRequired,
-
-    /** Opens the rename dialog for the column. */
+    tasks: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+                .isRequired,
+        }),
+    ).isRequired,
     onRename: PropTypes.func.isRequired,
-
-    /** Opens the delete confirmation dialog for the column. */
     onDelete: PropTypes.func.isRequired,
-
-    /** Controls whether the add-task form is visible. */
     isAdding: PropTypes.bool.isRequired,
-
-    /** Starts the add-task flow. */
     onStartAdding: PropTypes.func.isRequired,
-
-    /** Stops the add-task flow. */
     onStopAdding: PropTypes.func.isRequired,
 };
 

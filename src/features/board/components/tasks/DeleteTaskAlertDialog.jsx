@@ -14,18 +14,18 @@ import { useTasksStore } from "@/features/board/store/useTasksStore";
 import { useBoardUIStore } from "@/features/board/store/useBoardUIStore";
 
 const DeleteTaskAlertDialog = () => {
-    const pendingDeleteTaskId = useBoardUIStore((s) => s.pendingDeleteTaskId);
-    const clearPendingDelete = useBoardUIStore((s) => s.clearPendingDelete);
+    const deletingTaskId = useBoardUIStore((s) => s.deletingTaskId);
+    const closeDeleteTask = useBoardUIStore((s) => s.closeDeleteTask);
     const removeTask = useTasksStore((s) => s.removeTask);
     const deleteLoading = useTasksStore((s) => s.mutationLoading);
 
-    const pendingTask = useTasksStore((s) =>
-        s.tasks.find((task) => task.id === pendingDeleteTaskId),
+    const task = useTasksStore((s) =>
+        s.tasks.find((t) => t.id === deletingTaskId),
     );
 
     // Delete the pending task and close the dialog
     const handleDeleteTask = async () => {
-        const result = await removeTask(pendingDeleteTaskId);
+        const result = await removeTask(deletingTaskId);
 
         if (result.success) {
             toast.success("وظیفه حذف شد");
@@ -33,20 +33,22 @@ const DeleteTaskAlertDialog = () => {
             toast.error(result.error || "خطا در حذف وظیفه");
         }
 
-        clearPendingDelete();
+        closeDeleteTask();
     };
+
+    if (!task) return;
 
     return (
         <AlertDialog
-            open={!!pendingDeleteTaskId}
-            onOpenChange={(open) => !open && clearPendingDelete()}>
+            open={!!deletingTaskId}
+            onOpenChange={(open) => !open && closeDeleteTask()}>
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>حذف وظیفه</AlertDialogTitle>
 
                     <AlertDialogDescription>
-                        آیا از حذف «{pendingTask?.title}» مطمئن هستید؟ این
-                        عملیات قابل بازگشت نیست.
+                        آیا از حذف «{task.title}» مطمئن هستید؟ این عملیات قابل
+                        بازگشت نیست.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
 

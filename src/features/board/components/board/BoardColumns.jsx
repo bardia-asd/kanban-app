@@ -14,7 +14,8 @@ import BoardColumn, {
 } from "@/features/board/components/board/BoardColumn";
 import DeleteColumnAlertDialog from "@/features/board/components/board/DeleteColumnAlertDialog";
 import RenameColumnDialog from "@/features/board/components/board/RenameColumnDialog";
-import DeleteTaskAlertDialog from "../tasks/DeleteTaskAlertDialog";
+import DeleteTaskAlertDialog from "@/features/board/components/tasks/DeleteTaskAlertDialog";
+import UpdateTaskDrawer from "@/features/board/components/tasks/UpdateTaskDrawer";
 
 const BoardColumns = () => {
     // Board columns and their loading/error states.
@@ -153,6 +154,9 @@ const BoardColumns = () => {
 
             {/* Task deletion confirmation dialog. */}
             <DeleteTaskAlertDialog />
+
+            {/* Task editing drawer. */}
+            <UpdateTaskDrawer />
         </DragDropProvider>
     );
 };
