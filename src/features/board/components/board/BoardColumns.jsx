@@ -65,7 +65,9 @@ const BoardColumns = () => {
     }, [tasks, columns, searchQuery, priorityFilter]);
 
     const handleDragStart = () => {
-        dragSnapshot.current = useTasksStore.getState().tasks;
+        dragSnapshot.current = useTasksStore.getState().tasks.map((task) => ({
+            ...task,
+        }));
     };
 
     const handleDragEnd = async (event) => {
@@ -77,13 +79,12 @@ const BoardColumns = () => {
             }
 
             dragSnapshot.current = null;
-
             return;
         }
 
         const finalTasks = useTasksStore.getState().tasks;
 
-        const result = await persistTaskOrder(finalTasks);
+        const result = await persistTaskOrder(finalTasks, dragSnapshot.current);
 
         if (!result.success) {
             if (dragSnapshot.current) {

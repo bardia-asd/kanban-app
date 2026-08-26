@@ -203,14 +203,28 @@ export const taskActions = (set, get) => ({
         });
     },
 
-    persistTaskOrder: async (tasks) => {
+    persistTaskOrder: async (tasks, originalTasks = []) => {
         try {
-            for (const task of tasks) {
-                await updateTaskPosition(task.id, {
-                    column_id: task.column_id,
-                    position: task.position,
-                });
-            }
+            const changedTasks = tasks.filter((task) => {
+                const original = originalTasks.find(
+                    (originalTask) => originalTask.id === task.id,
+                );
+
+                return (
+                    !original ||
+                    original.column_id !== task.column_id ||
+                    original.position !== task.position
+                );
+            });
+
+            await Promise.all(
+                changedTasks.map((task) =>
+                    updateTaskPosition(task.id, {
+                        column_id: task.column_id,
+                        position: task.position,
+                    }),
+                ),
+            );
 
             return {
                 success: true,
