@@ -134,6 +134,99 @@ export const taskActions = (set, get) => ({
         }
     },
 
+    moveTaskLocal: ({ sourceId, targetColumnId, targetIndex }) => {
+        set((state) => {
+            const columns = {};
+
+            for (const task of state.tasks) {
+                if (!columns[task.column_id]) {
+                    columns[task.column_id] = [];
+                }
+
+                columns[task.column_id].push(task);
+            }
+
+            Object.values(columns).forEach((columnTasks) => {
+                columnTasks.sort((a, b) => a.position - b.position);
+            });
+
+            const sourceTask = state.tasks.find((task) => task.id === sourceId);
+
+            if (!sourceTask) {
+                return state;
+            }
+
+            const sourceColumnId = sourceTask.column_id;
+
+            const sourceItems = columns[sourceColumnId] ?? [];
+            const targetItems = columns[targetColumnId] ?? [];
+
+            const sourceIndex = sourceItems.findIndex(
+                (task) => task.id === sourceId,
+            );
+
+            if (sourceIndex === -1) {
+                return state;
+            }
+
+            const [movedTask] = sourceItems.splice(sourceIndex, 1);
+
+            let index = targetIndex;
+
+            if (sourceColumnId === targetColumnId) {
+                if (sourceIndex < index) {
+                    index -= 1;
+                }
+            }
+
+            index = Math.max(0, Math.min(index, targetItems.length));
+
+            movedTask.column_id = targetColumnId;
+
+            targetItems.splice(index, 0, movedTask);
+
+            columns[sourceColumnId] = sourceItems;
+            columns[targetColumnId] = targetItems;
+
+            const updatedTasks = Object.values(columns)
+                .flat()
+                .map((task) => ({
+                    ...task,
+                    position: columns[task.column_id].findIndex(
+                        (item) => item.id === task.id,
+                    ),
+                }));
+
+            return {
+                tasks: updatedTasks,
+            };
+        });
+    },
+
+    persistTaskOrder: async (tasks) => {
+        try {
+            for (const task of tasks) {
+                await updateTaskPosition(task.id, {
+                    column_id: task.column_id,
+                    position: task.position,
+                });
+            }
+
+            return {
+                success: true,
+            };
+        } catch (err) {
+            set({
+                error: err.message,
+            });
+
+            return {
+                success: false,
+                error: err.message,
+            };
+        }
+    },
+
     // Delete a task and remove it from the local state
     removeTask: async (id) => {
         set({

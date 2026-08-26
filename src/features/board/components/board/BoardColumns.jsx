@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { DragDropProvider } from "@dnd-kit/react";
 import { toast } from "sonner";
@@ -18,6 +18,8 @@ import DeleteTaskAlertDialog from "@/features/board/components/tasks/DeleteTaskA
 import UpdateTaskDrawer from "@/features/board/components/tasks/UpdateTaskDrawer";
 
 const BoardColumns = () => {
+    const dragSnapshot = useRef(null);
+
     // Board columns and their loading/error states.
     const columns = useBoardStore((s) => s.columns);
     const isLoading = useBoardStore((s) => s.fetchLoading);
@@ -28,7 +30,8 @@ const BoardColumns = () => {
     // Tasks and task actions.
     const tasks = useTasksStore((s) => s.tasks);
     const fetchTasks = useTasksStore((s) => s.fetchTasks);
-    const moveTask = useTasksStore((s) => s.moveTask);
+    const moveTaskLocal = useTasksStore((s) => s.moveTaskLocal);
+    const persistTaskOrder = useTasksStore((s) => s.persistTaskOrder);
 
     // Board search and priority filter.
     const searchQuery = useBoardUIStore((s) => s.searchQuery);
@@ -61,20 +64,83 @@ const BoardColumns = () => {
         return map;
     }, [tasks, columns, searchQuery, priorityFilter]);
 
-    // Move the dragged task to its new column and position.
-    const handleDragEnd = async (event) => {
-        if (event.canceled) return;
+    const handleDragStart = () => {
+        dragSnapshot.current = useTasksStore.getState().tasks;
+    };
 
+    const handleDragEnd = async (event) => {
+        if (event.canceled) {
+            if (dragSnapshot.current) {
+                useTasksStore.setState({
+                    tasks: dragSnapshot.current,
+                });
+            }
+
+            dragSnapshot.current = null;
+
+            return;
+        }
+
+        const finalTasks = useTasksStore.getState().tasks;
+
+        const result = await persistTaskOrder(finalTasks);
+
+        if (!result.success) {
+            if (dragSnapshot.current) {
+                useTasksStore.setState({
+                    tasks: dragSnapshot.current,
+                });
+            }
+
+            toast.error(result.error || "خطا در ذخیره ترتیب وظایف");
+        }
+
+        dragSnapshot.current = null;
+    };
+
+    const handleDragOver = (event) => {
         const { source, target } = event.operation;
 
         if (!source || !target) return;
 
-        const newColumnId = target.group ?? target.id;
-        const newPosition = target.index ?? 0;
+        if (searchQuery || priorityFilter !== "all") {
+            return;
+        }
 
-        await moveTask(source.id, {
-            newColumnId,
-            newPosition,
+        const currentTasks = useTasksStore.getState().tasks;
+
+        const sourceTask = currentTasks.find((task) => task.id === source.id);
+
+        if (!sourceTask) return;
+
+        const sourceColumnId = sourceTask.column_id;
+        const targetColumnId = target.group ?? target.id;
+
+        const targetIndex = target.index ?? 0;
+
+        if (sourceColumnId === targetColumnId) {
+            const columnTasks = currentTasks
+                .filter((task) => task.column_id === targetColumnId)
+                .sort((a, b) => a.position - b.position);
+
+            const sourceIndex = columnTasks.findIndex(
+                (task) => task.id === source.id,
+            );
+
+            if (sourceIndex === -1) return;
+
+            if (
+                sourceIndex === targetIndex ||
+                sourceIndex === targetIndex - 1
+            ) {
+                return;
+            }
+        }
+
+        moveTaskLocal({
+            sourceId: source.id,
+            targetColumnId,
+            targetIndex,
         });
     };
 
@@ -101,7 +167,10 @@ const BoardColumns = () => {
     }, [fetchColumns, fetchTasks]);
 
     return (
-        <DragDropProvider onDragEnd={handleDragEnd}>
+        <DragDropProvider
+            onDragStart={handleDragStart}
+            onDragOver={handleDragOver}
+            onDragEnd={handleDragEnd}>
             <div className="flex gap-4 overflow-x-auto pb-3">
                 {isLoading && <BoardColumnSkeleton />}
 
