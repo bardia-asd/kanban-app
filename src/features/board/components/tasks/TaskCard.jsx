@@ -94,7 +94,7 @@ const TaskCard = ({ task, index, columnId }) => {
                             <Button
                                 size="icon"
                                 variant="ghost"
-                                className="size-7 shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
+                                className="size-7 shrink-0 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity"
                                 onPointerDown={(e) => e.stopPropagation()}
                                 onClick={(e) => e.stopPropagation()}>
                                 <MoreHorizontal size={14} />

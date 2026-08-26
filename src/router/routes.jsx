@@ -6,7 +6,6 @@ import Archive from "@/pages/Archive/Archive";
 import Board from "@/pages/Board/Board";
 import Projects from "@/pages/Projects/Projects";
 import Reports from "@/pages/Reports/Reports";
-import Calender from "@/pages/Calender/Calender";
 import Tasks from "@/pages/Tasks/Tasks";
 import Members from "@/pages/Members/Members";
 import Settings from "@/pages/Settings/Settings";
@@ -22,7 +21,6 @@ export const routes = createBrowserRouter([
             { index: true, element: <Dashboard /> },
             { path: "archive", element: <Archive /> },
             { path: "board", element: <Board /> },
-            { path: "calender", element: <Calender /> },
             { path: "tasks", element: <Tasks /> },
             { path: "members", element: <Members /> },
             { path: "projects", element: <Projects /> },
